@@ -45,6 +45,11 @@ def text_into_df():
     
     text_df.to_csv(df_path, index=False, encoding="utf-8")
 
-preprocess_pdf()
-text_into_df()
+def main():
+    preprocess_pdf()
+    text_into_df()
+    return 0
+
+main()
+
 
