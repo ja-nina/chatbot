@@ -33,7 +33,7 @@ def preprocess_pdf():
 def text_into_df():
     with open(end_path, 'r', encoding=encoding) as end_file:
         text_corpora = end_file.read()
-        text = text_corpora.replace("\n", " ").replace("\t", " ")
+        text = text_corpora.replace("\n", " ").replace("\t", " ").replace(';', '')
     
     dos = nlp(text)
     text_sentences = [sent for sent in dos.sents]
@@ -44,7 +44,7 @@ def text_into_df():
     dictionnary_to_df["response"] = text_sentences[(DEFAULT_CONTEXT_LENGTH + 1): -(DEFAULT_CONTEXT_LENGTH-1)]
     text_df = pd.DataFrame(dictionnary_to_df)
 
-    text_df.to_csv(df_path, index=False, encoding=encoding)
+    text_df.to_csv(df_path, index=False, encoding=encoding, sep = ';')
 
 def main():
     preprocess_pdf()
