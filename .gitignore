@@ -1,3 +1,4 @@
-/cached
-/runs
-*.bin
+.idea/
+
+/cached/
+/runs/

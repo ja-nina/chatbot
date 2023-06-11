@@ -1,1 +1,7 @@
-transformer==4.22.2
+pandas==1.5.2
+PyPDF2==3.0.1
+spacy==3.3.2
+streamlit==1.23.1
+streamlit_chat==0.0.2.2
+torch==2.0.0
+transformers==4.22.2
