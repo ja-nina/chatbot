@@ -5,13 +5,17 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 class ChatBot:
-    def __init__(self, model_path):
-        self.model = AutoModelForCausalLM.from_pretrained(model_path)
+    def __init__(self, model_path: str, device: torch.device):
+        self.device = device
+        self.model = AutoModelForCausalLM.from_pretrained(model_path).to(self.device)
         self.tokenizer = AutoTokenizer.from_pretrained(model_path)
         self.chat_history_ids = None
 
+    def get_input_tokens(self, user_input: str) -> torch.Tensor:
+        return self.tokenizer.encode(user_input + self.tokenizer.eos_token, return_tensors="pt").to(self.device)
+
     def get_response(self, user_input: str) -> str:
-        new_user_input_ids = self.tokenizer.encode(user_input + self.tokenizer.eos_token, return_tensors="pt")
+        new_user_input_ids = self.get_input_tokens(user_input)
         bot_input_ids = (
             torch.cat([self.chat_history_ids, new_user_input_ids], dim=-1)
             if self.chat_history_ids else new_user_input_ids
@@ -47,7 +51,8 @@ def init_streamlit():
 def main():
     init_streamlit()
 
-    chatbot = ChatBot("../output-small/")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    chatbot = ChatBot("../output-small/", device)
 
     def callback():
         st.session_state.temp = st.session_state.input
