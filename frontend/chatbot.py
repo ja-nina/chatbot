@@ -11,13 +11,10 @@ class ChatBot:
         self.chat_history_ids = None
 
     def get_response(self, user_input: str) -> str:
-        new_user_input_ids = self.tokenizer.encode(
-            user_input + self.tokenizer.eos_token, return_tensors="pt"
-        )
+        new_user_input_ids = self.tokenizer.encode(user_input + self.tokenizer.eos_token, return_tensors="pt")
         bot_input_ids = (
             torch.cat([self.chat_history_ids, new_user_input_ids], dim=-1)
-            if self.chat_history_ids
-            else new_user_input_ids
+            if self.chat_history_ids else new_user_input_ids
         )
 
         chat_history_ids = self.model.generate(
@@ -55,9 +52,7 @@ def main():
     def callback():
         st.session_state.temp = st.session_state.input
         st.session_state.past.append(st.session_state.temp)
-        st.session_state.generated.append(
-            chatbot.get_response(st.session_state.temp)
-        )
+        st.session_state.generated.append(chatbot.get_response(st.session_state.temp))
         st.session_state.input = ""
 
     st.text_input("You:", "", key="input", on_change=callback)
@@ -65,9 +60,7 @@ def main():
     if st.session_state["generated"]:
         for i in range(len(st.session_state["generated"]) - 1, -1, -1):
             message(st.session_state["generated"][i], key=str(i))
-            message(
-                st.session_state["past"][i], is_user=True, key=str(i) + "_user"
-            )
+            message(st.session_state["past"][i], is_user=True, key=str(i) + "_user")
 
 
 if __name__ == "__main__":
