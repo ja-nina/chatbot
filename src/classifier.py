@@ -22,4 +22,4 @@ class Classifier:
             probabilities = torch.softmax(logits, dim=-1)
             predicted_class = torch.argmax(probabilities, dim=-1)
 
-        return predicted_class.item()
+        return int(predicted_class.item())
