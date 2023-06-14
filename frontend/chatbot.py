@@ -7,12 +7,15 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 class ChatBot:
     def __init__(self, model_path: str, device: torch.device):
         self.device = device
-        self.model = AutoModelForCausalLM.from_pretrained(model_path).to(self.device)
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_path).to(self.device)
         self.tokenizer = AutoTokenizer.from_pretrained(model_path)
         self.chat_history_ids = None
 
     def get_input_tokens(self, user_input: str) -> torch.Tensor:
-        return self.tokenizer.encode(user_input + self.tokenizer.eos_token, return_tensors="pt").to(self.device)
+        return self.tokenizer.encode(
+            user_input + self.tokenizer.eos_token, return_tensors="pt"
+            ).to(self.device)
 
     def get_response(self, user_input: str) -> str:
         new_user_input_ids = self.get_input_tokens(user_input)
@@ -57,7 +60,8 @@ def main():
     def callback():
         st.session_state.temp = st.session_state.input
         st.session_state.past.append(st.session_state.temp)
-        st.session_state.generated.append(chatbot.get_response(st.session_state.temp))
+        st.session_state.generated.append(chatbot.get_response(
+            st.session_state.temp))
         st.session_state.input = ""
 
     st.text_input("You:", "", key="input", on_change=callback)
@@ -65,7 +69,8 @@ def main():
     if st.session_state["generated"]:
         for i in range(len(st.session_state["generated"]) - 1, -1, -1):
             message(st.session_state["generated"][i], key=str(i))
-            message(st.session_state["past"][i], is_user=True, key=str(i) + "_user")
+            message(st.session_state["past"][i],
+                    is_user=True, key=str(i) + "_user")
 
 
 if __name__ == "__main__":

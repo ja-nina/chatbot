@@ -5,3 +5,5 @@ streamlit==1.23.1
 streamlit_chat==0.0.2.2
 torch==2.0.0
 transformers==4.22.2
+git+https://github.com/MCFreddie777/language-check.git
+flake8==1.mypy
