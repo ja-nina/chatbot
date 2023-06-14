@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock
 
-from src.metrics_gathering import MetricsGathering
+from chatbot.metrics_gathering import MetricsGathering
 
 
 def test_get_responses():

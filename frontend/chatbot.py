@@ -2,7 +2,7 @@ import streamlit as st
 import torch
 from streamlit_chat import message
 
-from src.chatbot import ChatBot
+from chatbot.chatbot import ChatBot
 
 
 def init_streamlit():
