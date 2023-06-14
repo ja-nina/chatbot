@@ -1,0 +1,4 @@
+pytest~=7.2.0
+pytest-xdist[psutil]
+mock
+-r ../requirements.txt

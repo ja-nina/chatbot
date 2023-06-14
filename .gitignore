@@ -1,4 +1,7 @@
 .idea/
-*.bin
 /cached/
 /runs/
+
+**/__pycache__/
+.mypy_cache/
+.pytest_cache/

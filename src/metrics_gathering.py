@@ -1,19 +1,25 @@
-import torch
-import pandas as pd
-import language_check
 import logging
 import time
 from statistics import mean
 from typing import Tuple, List
+
+import pandas as pd
+import torch
+
+try:
+    from language_check import LanguageTool
+except ImportError:
+    LanguageTool = None
+
 from frontend.chatbot import ChatBot
 
 
 class MetricsGathering:
-    def __init__(self, chatbot: ChatBot, data_location: str):
+    def __init__(self, chatbot: ChatBot, data: List[str], tool: LanguageTool):
         logging.basicConfig(level=logging.INFO)
         self.chatbot = chatbot
-        self.data = pd.read_csv(data_location).head(100)['Text']
-        self.tool = language_check.LanguageTool('en-US')
+        self.data = data
+        self.tool = tool
         self.logger = logging.getLogger("metrics_logger")
 
     def gather_responses_and_time(self) -> Tuple[List[str], float]:
@@ -32,7 +38,7 @@ class MetricsGathering:
         for text in self.data:
             responses.append(self.chatbot.get_response(text))
         end = time.time()
-        return responses, (end - start)/len(responses)
+        return responses, (end - start) / len(responses)
 
     def get_response_length(self, responses: List[str]) -> float:
         """Get mean length
@@ -61,6 +67,7 @@ class MetricsGathering:
             Mean mistakes ``responses``.
 
         """
+
         def _find_number_of_errors(text):
             matches = self.tool.check(text)
             return len(matches)
@@ -84,9 +91,11 @@ class MetricsGathering:
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    chatbot = ChatBot("./output-small/", device)
-    metrics = MetricsGathering(chatbot, 'data_metrics\\dialogs.csv')
+    chatbot = ChatBot("../output-small/", device)
+    data = pd.read_csv('data_metrics\\dialogs.csv').head(100)['Text']
+    metrics = MetricsGathering(chatbot, data, LanguageTool('en-US'))
     metrics.gather_metrics()
 
 
-main()
+if __name__ == '__main__':
+    main()
