@@ -4,7 +4,7 @@ import language_check
 import logging
 import time
 from statistics import mean
-from typing import List
+from typing import Tuple, List
 from frontend.chatbot import ChatBot
 
 
@@ -16,7 +16,7 @@ class MetricsGathering:
         self.tool = language_check.LanguageTool('en-US')
         self.logger = logging.getLogger("metrics_logger")
 
-    def gather_responses_and_time(self) -> List[str]:
+    def gather_responses_and_time(self) -> Tuple[List[str], float]:
         start = time.time()
         responses = []
         for text in self.data:

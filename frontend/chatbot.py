@@ -20,7 +20,7 @@ class ChatBot:
     def get_response(self, user_input: str) -> str:
         new_user_input_ids = self.get_input_tokens(user_input)
         bot_input_ids = (
-            torch.cat([self.chat_history_ids, new_user_input_ids], dim=-1)
+            torch.cat([torch.Tensor(self.chat_history_ids), torch.Tensor(new_user_input_ids)], dim=-1)
             if self.chat_history_ids else new_user_input_ids
         )
 
