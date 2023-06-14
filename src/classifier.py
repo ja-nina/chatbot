@@ -1,6 +1,5 @@
-import streamlit as st
 import torch
-from transformers import RobertaTokenizer, RobertaForSequenceClassification 
+from transformers import RobertaTokenizer, RobertaForSequenceClassification
 
 
 class Classifier:
