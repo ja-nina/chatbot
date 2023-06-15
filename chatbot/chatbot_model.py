@@ -11,11 +11,34 @@ class ChatBot:
         self.chat_history_ids = None
 
     def get_input_tokens(self, user_input: str) -> torch.Tensor:
+        """Get tokens from model
+
+        Pass input to tokenizer to produce tokens.
+        Moves the output to device.
+
+        Args:
+            user_input (str) : input text
+
+        Returns:
+            torch Tensor with tokens
+        """
         return self.tokenizer.encode(
             user_input + self.tokenizer.eos_token, return_tensors="pt"
         ).to(self.device)
 
     def get_response(self, user_input: str) -> str:
+        """Get response from model
+
+        Pass input to tokenizer to produce tokens.
+        Moves the output to device.
+        Pass the tokens to the model along with context.
+
+        Args:
+            user_input (str) : input text
+
+        Returns:
+            text response from model
+        """
         new_user_input_ids = self.get_input_tokens(user_input)
         bot_input_ids = (
             torch.cat([torch.Tensor(self.chat_history_ids),

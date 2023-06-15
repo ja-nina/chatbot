@@ -10,9 +10,33 @@ class Classifier:
         self.tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
 
     def get_input_tokens(self, user_input: str) -> torch.Tensor:
-        return self.tokenizer(user_input, return_tensors="pt")
+        """Get tokens from model
+
+        Pass input to tokenizer to produce tokens.
+        Moves the output to device.
+
+        Args:
+            user_input (str) : input text
+
+        Returns:
+            torch Tensor with tokens
+        """
+        return self.tokenizer(
+            user_input, return_tensors="pt").to(self.device)
 
     def get_prediction(self, user_input: str) -> int:
+        """Get prediction from model
+
+        Pass input to tokenizer to produce tokens.
+        Moves the output to device.
+        Pass the tokens to the model along with context.
+
+        Args:
+            user_input (str) : input text
+
+        Returns:
+            predictions from model
+        """
         inputs = self.get_input_tokens(user_input)
         with torch.no_grad():
             outputs = self.model(**inputs)

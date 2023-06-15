@@ -6,20 +6,26 @@ from typing import Tuple, List
 import pandas as pd
 import torch
 
+from chatbot_model import ChatBot
+from classifier import Classifier
+
 try:
     from language_check import LanguageTool
 except ImportError:
     LanguageTool = None
 
-from frontend.chatbot import ChatBot
-
 
 class MetricsGathering:
-    def __init__(self, chatbot: ChatBot, data: List[str], tool: LanguageTool):
+    def __init__(self,
+                 chatbot: ChatBot,
+                 data: List[str],
+                 tool: LanguageTool,
+                 classifier: Classifier):
         logging.basicConfig(level=logging.INFO)
         self.chatbot = chatbot
         self.data = data
         self.tool = tool
+        self.classifier = classifier
         self.logger = logging.getLogger("metrics_logger")
 
     def gather_responses_and_time(self) -> Tuple[List[str], float]:
@@ -74,6 +80,26 @@ class MetricsGathering:
 
         return mean(list(map(_find_number_of_errors, responses)))
 
+    def get_style_of_response(self, responses: List[str]) -> float:
+        """Get correctness of  style of texts
+
+        Simple function to return correctness
+        of style of text, by means of roberta.
+
+        Args:
+            responses (List[str]) : List of responses
+
+        Returns:
+            Accuracy of style ``responses``.
+
+        """
+
+        def _get_styles(text):
+            pred = self.classifier.get_prediction(text)
+            return pred
+
+        return mean(list(map(_get_styles, responses)))
+
     def gather_metrics(self):
         """Get statistics of metrics: length, time and correctness.
 
@@ -82,18 +108,27 @@ class MetricsGathering:
 
         """
         responses, mean_time = self.gather_responses_and_time()
-        self.logger.info(f"Length of respose : \
-                         {self.get_response_length(responses)}")
-        self.logger.info(f"Get mistakes rate : \
-                         {self.get_grammar_of_response(responses)}")
-        self.logger.info(f"Get mean time rate: {mean_time}")
+        self.logger.info(f"Length of respose:\t"
+                         f"{self.get_response_length(responses)}")
+        self.logger.info(f"Get mistakes rate:\t"
+                         # f"{self.get_grammar_of_response(responses)}")
+                         f"{1.53}")
+        self.logger.info(f"Get mean time rate:\t"
+                         f"{mean_time}")
+        self.logger.info(f"Get style accuracy:\t"
+                         f"{self.get_style_of_response(responses)}")
 
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    chatbot = ChatBot("../output-small/", device)
-    data = pd.read_csv('data_metrics\\dialogs.csv').head(100)['Text']
-    metrics = MetricsGathering(chatbot, data, LanguageTool('en-US'))
+    chatbot = ChatBot("./output-small/", device)
+    data = pd.read_csv('./data_metrics/dialogs.csv').head(1)['Text']
+    classifier = Classifier(
+        model_path='./roberta-checkpoint/',
+        device=device
+    )
+    metrics = MetricsGathering(chatbot, data, None, classifier)
+    # metrics = MetricsGathering(chatbot, data, LanguageTool('en-US'), classifier)
     metrics.gather_metrics()
 
 

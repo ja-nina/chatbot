@@ -2,7 +2,7 @@ import streamlit as st
 import torch
 from streamlit_chat import message
 
-from chatbot.chatbot import ChatBot
+from chatbot_model import ChatBot
 
 
 def init_streamlit():
@@ -19,7 +19,7 @@ def main():
     init_streamlit()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    chatbot = ChatBot("../output-small/", device)
+    chatbot = ChatBot("./output-small/", device)
 
     def callback():
         st.session_state.temp = st.session_state.input

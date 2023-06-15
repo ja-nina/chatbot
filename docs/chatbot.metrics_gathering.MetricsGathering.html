@@ -207,6 +207,16 @@
             </div>
         
 
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_style_of_response" class="internal-link" title="chatbot.metrics_gathering.MetricsGathering.get_style_of_response">get<wbr></wbr>_style<wbr></wbr>_of<wbr></wbr>_response</a></code>
+            </div>
+        
+
     </li>
 </ul> 
 
@@ -223,6 +233,16 @@
 
         
             <div class="itemName"><code><a href="#chatbot" class="internal-link" title="chatbot.metrics_gathering.MetricsGathering.chatbot">chatbot</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#classifier" class="internal-link" title="chatbot.metrics_gathering.MetricsGathering.classifier">classifier</a></code>
             </div>
         
 
@@ -347,7 +367,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">MetricsGathering</span>:</code></p><p>Constructor: <code><a href="#__init__" class="internal-link" title="chatbot.metrics_gathering.MetricsGathering.__init__">MetricsGathering(chatbot, data, tool)</a></code></p>
+          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">MetricsGathering</span>:</code></p><p>Constructor: <code><a href="#__init__" class="internal-link" title="chatbot.metrics_gathering.MetricsGathering.__init__">MetricsGathering(chatbot, data, tool, classifier)</a></code></p>
           <p><a href="classIndex.html#chatbot.metrics_gathering.MetricsGathering">View In Hierarchy</a></p>
         </div>
 
@@ -356,7 +376,7 @@
         </div>
 
         <div id="splitTables">
-          <table class="children sortable" id="id8">
+          <table class="children sortable" id="id9">
   
   
   <tr class="method">
@@ -384,10 +404,20 @@
     <td>Method</td>
     <td><code><a href="#get_response_length" class="internal-link" title="chatbot.metrics_gathering.MetricsGathering.get_response_length">get<wbr></wbr>_response<wbr></wbr>_length</a></code></td>
     <td>Get mean length</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#get_style_of_response" class="internal-link" title="chatbot.metrics_gathering.MetricsGathering.get_style_of_response">get<wbr></wbr>_style<wbr></wbr>_of<wbr></wbr>_response</a></code></td>
+    <td>Get correctness of  style of texts</td>
   </tr><tr class="instancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="#chatbot" class="internal-link" title="chatbot.metrics_gathering.MetricsGathering.chatbot">chatbot</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="instancevariable">
+    
+    <td>Instance Variable</td>
+    <td><code><a href="#classifier" class="internal-link" title="chatbot.metrics_gathering.MetricsGathering.classifier">classifier</a></code></td>
     <td><span class="undocumented">Undocumented</span></td>
   </tr><tr class="instancevariable">
     
@@ -424,7 +454,7 @@
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">__init__</span><span class="function-signature">(self, chatbot: <code>ChatBot</code>, data: <code>List[<wbr></wbr>str]</code>, tool: <code>LanguageTool</code>)</span>:
+    <span class="py-keyword">def</span> <span class="py-defname">__init__</span><span class="function-signature">(self, chatbot: <code>ChatBot</code>, data: <code>List[<wbr></wbr>str]</code>, tool: <code>LanguageTool</code>, classifier: <code>Classifier</code>)</span>:
     
     <a class="headerLink" href="#__init__" title="chatbot.metrics_gathering.MetricsGathering.__init__">
       
@@ -559,6 +589,39 @@ Args:
 Returns:
     Mean length of item in ``responses``.</p></div>
   </div>
+</div><div class="basemethod">
+  
+  
+  <a name="chatbot.metrics_gathering.MetricsGathering.get_style_of_response">
+    
+  </a>
+  <a name="get_style_of_response">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_style_of_response</span><span class="function-signature">(self, responses: <code>List[<wbr></wbr>str]</code>) -&gt; <code>float</code></span>:
+    
+    <a class="headerLink" href="#get_style_of_response" title="chatbot.metrics_gathering.MetricsGathering.get_style_of_response">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="pre">Get correctness of  style of texts
+
+Simple function to return correctness
+of style of text, by means of roberta.
+
+Args:
+    responses (List[str]) : List of responses
+
+Returns:
+    Accuracy of style ``responses``.</p></div>
+  </div>
 </div><div class="baseinstancevariable">
   
   
@@ -573,6 +636,30 @@ Returns:
     <span class="py-defname">chatbot</span> =
     
     <a class="headerLink" href="#chatbot" title="chatbot.metrics_gathering.MetricsGathering.chatbot">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="baseinstancevariable">
+  
+  
+  <a name="chatbot.metrics_gathering.MetricsGathering.classifier">
+    
+  </a>
+  <a name="classifier">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">classifier</span> =
+    
+    <a class="headerLink" href="#classifier" title="chatbot.metrics_gathering.MetricsGathering.classifier">
       
       
       ¶
@@ -667,7 +754,7 @@ Returns:
   <div class="container">
     <a href="index.html">API Documentation</a> for chatbot,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    23.4.1 at 2023-06-14 21:23:39.
+    23.4.1 at 2023-06-15 11:41:03.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 
