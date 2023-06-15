@@ -1,11 +1,11 @@
 import torch
 
-from frontend.chatbot import ChatBot
+from chatbot.chatbot_model import ChatBot
 
 
 def test_get_input_tokens_from_chatbot():
     # given
-    chatbot = ChatBot("./output-small/", torch.device(
+    chatbot = ChatBot("../output-small/", torch.device(
         "cuda" if torch.cuda.is_available() else "cpu"))
 
     # when

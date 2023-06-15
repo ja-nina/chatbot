@@ -8,9 +8,11 @@ def test_get_responses():
     chatbot = MagicMock()
     data = ['text_1', 'text_2']
     tool = MagicMock()
+    classifier = MagicMock()
     chatbot.get_response = lambda x: "response"
 
-    metrics_gathering = MetricsGathering(chatbot, data, tool)
+    metrics_gathering = MetricsGathering(
+        chatbot, data, tool, classifier)
 
     # when
     responses, time = metrics_gathering.gather_responses_and_time()
@@ -25,8 +27,10 @@ def test_get_response_length():
     chatbot = MagicMock()
     data = ['text_1', 'text_2']
     tool = MagicMock()
+    classifier = MagicMock()
 
-    metrics_gathering = MetricsGathering(chatbot, data, tool)
+    metrics_gathering = MetricsGathering(
+        chatbot, data, tool, classifier)
 
     # when
     mean_len = metrics_gathering.get_response_length(["a", "abc"])
@@ -44,8 +48,10 @@ def test_get_grammar():
         "response1": [1],
         "response2": [1, 2],
     }[x]
+    classifier = MagicMock()
 
-    metrics_gathering = MetricsGathering(chatbot, data, tool)
+    metrics_gathering = MetricsGathering(
+        chatbot, data, tool, classifier)
 
     # when
     error_mean = metrics_gathering.get_grammar_of_response(
