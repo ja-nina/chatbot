@@ -111,8 +111,7 @@ class MetricsGathering:
         self.logger.info(f"Length of respose:\t"
                          f"{self.get_response_length(responses)}")
         self.logger.info(f"Get mistakes rate:\t"
-                         # f"{self.get_grammar_of_response(responses)}")
-                         f"{1.53}")
+                         f"{self.get_grammar_of_response(responses)}")
         self.logger.info(f"Get mean time rate:\t"
                          f"{mean_time}")
         self.logger.info(f"Get style accuracy:\t"
@@ -127,8 +126,8 @@ def main():
         model_path='./roberta-checkpoint/',
         device=device
     )
-    metrics = MetricsGathering(chatbot, data, None, classifier)
-    # metrics = MetricsGathering(chatbot, data, LanguageTool('en-US'), classifier)
+    metrics = MetricsGathering(
+        chatbot, data, LanguageTool('en-US'), classifier)
     metrics.gather_metrics()
 
 
